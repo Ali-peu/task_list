@@ -20,6 +20,7 @@ class MyAppView extends StatefulWidget {
   State<MyAppView> createState() => _MyAppViewState();
 }
 
+// Роутинг подключаем сразу!
 class _MyAppViewState extends State<MyAppView> {
   @override
   Widget build(BuildContext context) {
@@ -47,6 +48,7 @@ class _MyAppViewState extends State<MyAppView> {
             return const LoginScreen();
           } else {
             return const Center(
+                // Выносим даже не большие экраны, иначе запаришься искать
                 child: Column(
               children: [
                 Text('Here must to be экран загрузки'),

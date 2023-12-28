@@ -6,6 +6,7 @@ class TaskAdapter extends TypeAdapter<Task> {
   final typeId = 1;
   @override
   Task read(BinaryReader reader) {
+    // Проверяй данные!
     return Task(
         descriptions: reader.read() as String,
         status: reader.read() as int,
@@ -18,6 +19,7 @@ class TaskAdapter extends TypeAdapter<Task> {
 
   @override
   void write(BinaryWriter writer, Task obj) {
+    // Используй каскадную нотацию через ..
     writer.write(obj.id);
     writer.write(obj.title);
     writer.write(obj.descriptions);

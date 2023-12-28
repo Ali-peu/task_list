@@ -22,6 +22,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  // Not Good - Home Screen BloC?
   Future<void> _refresh() async {
     await Future.delayed(const Duration(seconds: 3));
     setState(() {});
@@ -35,19 +36,17 @@ class _HomeScreenState extends State<HomeScreen> {
           appBar: AppBar(
               leading: const Text('TaskList'), actions: [popUpMenuAppBar()]),
           body: RefreshIndicator(
-            onRefresh: _refresh,
+            onRefresh: _refresh, // Good
             child: StreamBuilder<List<Task>>(
                 stream: TaskRepository().tasksStream,
                 builder: (context, snapshot) {
-                  print(snapshot.connectionState);
                   if (snapshot.data == null) {
-                    print(snapshot.data);
-                    print('its snapshot.dart == null');
                     return const Center(child: Text('No task, No List<Task>'));
                   } else {
-                    print(snapshot.data);
-                    List<Task> listTask = snapshot.data!;
+                    List<Task> listTask = snapshot.data!; // Для чего
                     return ListView(
+                      // Если нужно распаковать лист данных в виджеты юзай ListView.builder()
+                      // Map - хорошая, но не удобная идея.
                       children:
                           listTask.map((task) => TaskCard(task: task)).toList(),
                     );
@@ -56,6 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: () {
+              // Вынести из вьюшки
               showDialog(
                   context: context,
                   builder: (context) {
@@ -67,7 +67,8 @@ class _HomeScreenState extends State<HomeScreen> {
             },
             child: const Icon(
               Icons.add,
-              color: Colors.black,
+              color:
+                  Colors.black, // Выносить в тему, не использовать константные
             ),
           ),
         );
@@ -79,18 +80,21 @@ class _HomeScreenState extends State<HomeScreen> {
     return PopupMenuButton(
         itemBuilder: (BuildContext context) => <PopupMenuEntry>[
               PopupMenuItem(
-                value: 'deleteAll',
+                value: 'deleteAll', // Используй Enum'ы
                 onTap: () {
+                  // Отделяем логику от вьюшки
                   setState(() {
                     TaskHiveLocalStorage().box.clear();
                   });
                 },
-                child: Text(AppLocalizations.of(context)!.clearBox),
+                child: Text(AppLocalizations.of(context)!
+                    .clearBox), // Объект локализатора выносить в свойства, (в идеале ещё и проверять существование)
               ),
               PopupMenuItem(
-                value: 'changeLocale',
+                value: 'changeLocale', // Используй Enum'ы
                 onTap: () {
                   setState(() {
+                    // ?
                     Provider.of<LocaleProvider>(context, listen: false)
                         .changeLocale();
                   });

@@ -11,9 +11,11 @@ class MyAlertWidget extends StatefulWidget {
 }
 
 class _MyAlertWidgetState extends State<MyAlertWidget> {
+  // Создавай контроллеры в init()
   TextEditingController taskTitleController = TextEditingController();
   TextEditingController taskDescriptionController = TextEditingController();
 
+  // dispose()? Отцепляй контроллеры когда зкарываешь виджет, во избежание багов и утечек памяти.
   void clearController() {
     taskTitleController.clear();
     taskDescriptionController.clear();
@@ -24,6 +26,7 @@ class _MyAlertWidgetState extends State<MyAlertWidget> {
     return BlocBuilder<OperationForTaskBloc, OperationForTaskState>(
       builder: (context, state) {
         return AlertDialog(
+          // Здесь можно обойтись без SizeBox. Сделав год опрятней, избавляясь от лишних просчётов.
           content: SizedBox(
             height: MediaQuery.of(context).size.height * 0.22,
             width: MediaQuery.of(context).size.width * 0.2,

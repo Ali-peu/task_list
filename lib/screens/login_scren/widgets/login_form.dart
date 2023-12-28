@@ -16,6 +16,7 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
+  // инициализацию в init()
   TextEditingController emailController = TextEditingController();
   TextEditingController companyNameController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
@@ -31,7 +32,9 @@ class _LoginFormState extends State<LoginForm> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<SignUpBloc, SignUpState>(
+      // стейт менеджмент вынести в блок
       listener: (context, state) {
+        // WTF?
         if (state is SignUpProcess) {
           setState(() {
             signUpRequired = false;
@@ -48,6 +51,7 @@ class _LoginFormState extends State<LoginForm> {
         key: formKey,
         child: Column(
           children: [
+            // Здесь можно обойтись без SizedBox. Вообще так можно конечно делать, но это костыль
             const SizedBox(height: 20),
             companyNameTextField(context),
             const SizedBox(height: 20),
@@ -65,11 +69,14 @@ class _LoginFormState extends State<LoginForm> {
     );
   }
 
+  // Вынести бизнес логик в Блок,
+  // Вынести
   SizedBox loginTextButton(BuildContext context) {
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.5,
       child: TextButton(
           onPressed: () {
+            // Не смешивай Бизнес-логику с вью
             if (formKey.currentState!.validate()) {
               MyUser myUser = MyUser.empty;
               myUser = myUser.copyWith(
@@ -93,6 +100,7 @@ class _LoginFormState extends State<LoginForm> {
     );
   }
 
+  // "MyTextField" очень плохое именование для проекта больше чем на 1 вечер.
   MyTextField passwordTextField(BuildContext context) {
     return MyTextField(
       controller: passwordController,
@@ -101,6 +109,7 @@ class _LoginFormState extends State<LoginForm> {
       keyboardType: TextInputType.visiblePassword,
       prefixIcon: const Icon(Icons.lock),
       errorMsg: _errorMsg,
+      // Валидаторы лучше вынести в отдельный файл,
       validator: (val) {
         if (val!.isEmpty) {
           return AppLocalizations.of(context)!.loginEmpty;
@@ -150,6 +159,7 @@ class _LoginFormState extends State<LoginForm> {
     return TextFormField(
         controller: phoneNumberController,
         inputFormatters: [formatter.MaskedInputFormatter('+7 (###) ###-##-##')],
+        // Вынести в тему
         decoration: InputDecoration(
           prefixIcon: const Icon(Icons.person),
           enabledBorder: OutlineInputBorder(
