@@ -16,6 +16,7 @@ class Task {
       required this.title});
 
   factory Task.fromJson(Map<String, dynamic> json) {
+    // Необходимы првоерки, сильная точка отказа если в Json одно нужное поле - null. (Никогда не доверяй Backend'ерам, всегда проверяй )
     return Task(
       id: json['id'],
       title: json['title'],

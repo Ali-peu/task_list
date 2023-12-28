@@ -4,6 +4,7 @@ import 'package:task_list/blocs/operation_for_task/operation_for_task_bloc.dart'
 import 'package:task_list/domain/models/task_model.dart';
 
 class TaskCard extends StatelessWidget {
+  // Good
   final Task task;
   const TaskCard({required this.task, super.key});
 
@@ -21,7 +22,7 @@ class TaskCard extends StatelessWidget {
           subtitle: Text(task.descriptions.toString()),
           trailing: Text(
             'Status:${task.status.toString()}',
-            style: const TextStyle(color: Colors.green),
+            style: const TextStyle(color: Colors.green), // Вынесте в тему
           ),
         ),
       ),
